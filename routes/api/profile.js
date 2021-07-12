@@ -17,7 +17,6 @@ router.get('/me', auth, async (req, res) => {
         );
         
         if (!profile){
-            console.log("BIG")
             return res.status(400).json({ msg: 'There is no profile for this user'})
         }
 
@@ -161,6 +160,9 @@ router.delete('/', auth, async (req, res) => {
     try {
         // @todo - remove user's posts
         // remove profile
+        // remove user posts
+        await Post.deleteMany({ user: req.user.id });
+
         await Profile.findOneAndRemove({ user: req.user.id });
         
         await User.findOneAndRemove({ _id: req.user.id });
@@ -333,7 +335,7 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
 
         await profile.save();
 
-        res.json(profile);
+        res.json({ profile });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
