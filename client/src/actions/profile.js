@@ -20,11 +20,14 @@ export const getCurrentProfile = () => async dispatch => {
             payload: res.data
         });
     } catch (err) {
+        // Add this
+        dispatch({ type: CLEAR_PROFILE });
+     
         dispatch({
             type: PROFILE_ERROR,
             payload: { msg: err.response.statusText, status: err.response.status }
         });
-    }
+        }
 };
 
 // Get all profiles
@@ -52,7 +55,7 @@ export const getProfileById = userId => async dispatch => {
 
     try {
         const res = await axios.get(`/api/profile/user/${userId}`);
-        
+        // console.log(res)
         dispatch({
             type: GET_PROFILE,
             payload: res.data
@@ -122,7 +125,6 @@ export const addExperience = (formData, history) => async dispatch => {
         const errors = err.response.data.errors;
 
         if (errors) {
-            console.log("BOW")
             errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
         }
 
