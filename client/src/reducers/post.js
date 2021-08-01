@@ -1,6 +1,8 @@
 import {
     GET_POSTS,
-    POST_ERROR
+    POST_ERROR,
+    DELETE_POST,
+    ADD_POST
 } from '../actions/types'
 
 const initialState = {
@@ -21,6 +23,18 @@ function postReducer(state = initialState, action) {
                 posts: payload,
                 loading: false
             };
+        case ADD_POST:
+            return {
+                ...state,
+                posts: [ payload, ...state.posts],
+                loading: false
+            }
+        case DELETE_POST:
+            return {
+                ...state,
+                posts: state.posts.filter(post => post._id !== payload),
+                loading: false
+            }
         case POST_ERROR:
             return {
                 ...state,
