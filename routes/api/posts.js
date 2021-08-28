@@ -36,7 +36,7 @@ router.post('/',
             });
 
             const post = await newPost.save();
-            res.json({ post });
+            res.json( post );
         } catch (err) {
             console.error(err.message);
             res.status(500).send('Server Error');
@@ -71,7 +71,7 @@ router.get('/:id', auth, async (req, res) => {
             return res.status(404).json({ msg: "Post not found" });
         }
 
-        res.json({ post });
+        res.json( post );
     } catch (err) {
         console.error(err.message);
         if(err.kind == 'ObjectId') {
